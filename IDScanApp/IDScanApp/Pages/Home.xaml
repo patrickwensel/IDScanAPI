@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="IDScanApp.Pages.Home" BackgroundColor="#FAFAFA">
+    <StackLayout Spacing="20" Padding="20">
+        <Image Source="{Binding ImgDocument}" HorizontalOptions="Center"
+               WidthRequest="200" HeightRequest="200" /> 
+        <Button BackgroundColor="#FFAA35" TextColor="White" Text="Take Photo" Command="{Binding TakePhotoCommand}"  />
+        <Button BackgroundColor="#FFAA35" TextColor="White" Text="Scan and Send" Command="{Binding ScanAndUploadCommand}" IsVisible="{Binding ShowScanButton}" />
+    </StackLayout>
+
+</ContentPage>
