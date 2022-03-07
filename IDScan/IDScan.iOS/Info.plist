@@ -33,5 +33,7 @@
 	<string>IDScan</string>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/AppIcon.appiconset</string>
+	<key>NSCameraUsageDescription</key>
+	<string>To take photo of your ID</string>
 </dict>
 </plist>

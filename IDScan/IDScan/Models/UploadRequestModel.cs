@@ -8,5 +8,6 @@ namespace IDScanApp.Models
         }
         public byte[] file { get; set; }
         public string id { get; set; }
+        public string GenQRUIDenc { get; set; }
     }
 }

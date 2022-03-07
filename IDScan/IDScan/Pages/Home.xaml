@@ -60,11 +60,12 @@
                      Spacing="10"
                      HorizontalOptions="FillAndExpand"
                      VerticalOptions="Start"
+                     x:Name="PhotoTakenView"
                      IsVisible="{Binding IsDocumentPhotoTaken, Converter={StaticResource  BoolInvertConverter}}">
             <Label HorizontalOptions="FillAndExpand"
                    VerticalOptions="Start"
                    Text="Take a photo of your ID"/>
-            <Button BackgroundColor="#FFAA35"
+            <Button BackgroundColor="#3D9AE8"
                     TextColor="White"
                     Text="Take Photo"
                     Command="{Binding TakePhotoCommand}"  />
@@ -75,16 +76,17 @@
                      Spacing="10"
                      HorizontalOptions="FillAndExpand"
                      VerticalOptions="Start"
-                     IsVisible="{Binding IsDocumentPhotoTaken}">
+                     
+                     IsVisible="{Binding IsDocumentPhotoTaken, Mode=TwoWay}">
             <Label HorizontalOptions="FillAndExpand"
                    VerticalOptions="Start"
                    Text="Look Good?"/>
-            <Button BackgroundColor="#FFAA35"
+            <Button BackgroundColor="#3D9AE8"
                     TextColor="White"
                     Text="Retake Photo"
                     Command="{Binding TakePhotoCommand}"  />
             <Button x:Name="BtnStartQRScaning"
-                    BackgroundColor="#FFAA35"
+                    BackgroundColor="#3D9AE8"
                     TextColor="White"
                     Text="Accept"
                     Clicked="BtnStartQRScaning_Clicked"/>
@@ -100,7 +102,7 @@
             <Label HorizontalOptions="FillAndExpand"
                    VerticalOptions="Start"
                    Text="Scan QR Code from the Webpage"/>
-            <Button BackgroundColor="#FFAA35"
+            <Button BackgroundColor="#3D9AE8"
                     TextColor="White"
                     Text="Completed"
                     Command="{Binding UploadIdCommand}"
@@ -110,6 +112,6 @@
     <!--<StackLayout Spacing="20" Padding="20">
         <Image Source="{Binding ImgDocument}" HorizontalOptions="Center"
                WidthRequest="200" HeightRequest="200" />
-        <Button BackgroundColor="#FFAA35" TextColor="White" Text="Take Photo" Command="{Binding TakePhotoCommand}"  />
+        <Button BackgroundColor="#3D9AE8" TextColor="White" Text="Take Photo" Command="{Binding TakePhotoCommand}"  />
     </StackLayout>-->
 </ContentPage>

@@ -8,7 +8,7 @@ namespace IDScanApp.ApiService.Interfaces
 {
 	public interface IUploadService 
 	{
-		Task<ResponseModel> UploadImage(UploadRequestModel uploadRequestModel);
+		Task<ResponseModel> UploadImage(string encrypted);
         
 	}
 }

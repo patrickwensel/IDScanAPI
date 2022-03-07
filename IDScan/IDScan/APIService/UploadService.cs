@@ -9,11 +9,11 @@ namespace IDScanApp.ApiService
 {
     public class UploadService : ApiBaseService, IUploadService
     {      
-        public async Task<ResponseModel> UploadImage(UploadRequestModel uploadRequestModel)
+        public async Task<ResponseModel> UploadImage(string encrypyed)
         {
              try
                 {
-                    var apiResponse = await PostWithFormDataRequest<ResponseModel>("fileupload/upload", uploadRequestModel);
+                    var apiResponse = await GetRequest<ResponseModel>($"UploadIDbyQR?GenQRUIDenc={encrypyed}");
                     return apiResponse;
                 }
                 catch (TaskCanceledException ex)

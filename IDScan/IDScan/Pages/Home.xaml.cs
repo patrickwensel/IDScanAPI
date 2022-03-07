@@ -17,8 +17,11 @@ namespace IDScanApp.Pages
 
         void BtnStartQRScaning_Clicked(System.Object sender, System.EventArgs e)
         {
+            PhotoTakenView.IsVisible = false;
             _homeViewModel.IsPhotoAccepted = true;
+            PhotoTakenView.IsVisible = false;
             scanner.IsScanning = true;
+           
         }
 
         void scanner_OnScanResult(ZXing.Result result)
