@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:zxing="clr-namespace:ZXing.Net.Mobile.Forms;assembly=ZXing.Net.Mobile.Forms"
+    NavigationPage.HasNavigationBar="False"
+    x:Class="IDScanApp.Pages.Home" BackgroundColor="#FAFAFA">
+    <Grid
+        Padding="5"
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.20*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.20*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Image Grid.Row="0" Grid.Column="0" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Source="IdScanLogo.png" Aspect="AspectFit" />
+        <!-- Image View : Shows the taken id Image -->
+        <Frame Grid.Column="1"
+               Grid.Row="0"
+               Grid.RowSpan="2"
+               Margin="5"
+               BorderColor="Black"
+               HasShadow="False"
+               CornerRadius="0"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="FillAndExpand"
+               IsVisible="{Binding IsPhotoAccepted, Converter={StaticResource BoolInvertConverter}}">
+            <Image HorizontalOptions="FillAndExpand"
+               VerticalOptions="FillAndExpand"
+               Source="{Binding ImgDocument}"
+               Aspect="AspectFit"/>
+        </Frame>
+
+        <!-- Scanner View -->
+        <Frame Grid.Row="0"
+               Grid.RowSpan="2"
+               Grid.Column="1"
+               BorderColor="Black"
+               Margin="0"
+               HasShadow="False"
+               CornerRadius="0"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="FillAndExpand"
+               IsVisible="{Binding IsPhotoAccepted}">
+            <zxing:ZXingScannerView x:Name="scanner"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                OnScanResult="scanner_OnScanResult"
+                                IsScanning="False" />
+        </Frame>
+
+        <!-- Left Section of the screen -->
+        <!-- Take a Photo section -->
+        <StackLayout Grid.Row="1"
+                     Grid.Column="0"
+                     Spacing="10"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="Start"
+                     IsVisible="{Binding IsDocumentPhotoTaken, Converter={StaticResource  BoolInvertConverter}}">
+            <Label HorizontalOptions="FillAndExpand"
+                   VerticalOptions="Start"
+                   Text="Take a photo of your ID"/>
+            <Button BackgroundColor="#FFAA35"
+                    TextColor="White"
+                    Text="Take Photo"
+                    Command="{Binding TakePhotoCommand}"  />
+        </StackLayout>
+        <!-- Photo Taken Section -->
+        <StackLayout Grid.Row="1"
+                     Grid.Column="0"
+                     Spacing="10"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="Start"
+                     IsVisible="{Binding IsDocumentPhotoTaken}">
+            <Label HorizontalOptions="FillAndExpand"
+                   VerticalOptions="Start"
+                   Text="Look Good?"/>
+            <Button BackgroundColor="#FFAA35"
+                    TextColor="White"
+                    Text="Retake Photo"
+                    Command="{Binding TakePhotoCommand}"  />
+            <Button x:Name="BtnStartQRScaning"
+                    BackgroundColor="#FFAA35"
+                    TextColor="White"
+                    Text="Accept"
+                    Clicked="BtnStartQRScaning_Clicked"/>
+        </StackLayout>
+
+        <!-- QR Code Section -->
+        <StackLayout Grid.Row="1"
+                     Grid.Column="0"
+                     Spacing="10"
+                     HorizontalOptions="FillAndExpand"
+                     VerticalOptions="Start"
+                     IsVisible="{Binding IsPhotoAccepted}">
+            <Label HorizontalOptions="FillAndExpand"
+                   VerticalOptions="Start"
+                   Text="Scan QR Code from the Webpage"/>
+            <Button BackgroundColor="#FFAA35"
+                    TextColor="White"
+                    Text="Completed"
+                    Command="{Binding UploadIdCommand}"
+                    IsEnabled="{Binding IsQRCodeScanned}" />
+        </StackLayout>
+    </Grid>
+    <!--<StackLayout Spacing="20" Padding="20">
+        <Image Source="{Binding ImgDocument}" HorizontalOptions="Center"
+               WidthRequest="200" HeightRequest="200" />
+        <Button BackgroundColor="#FFAA35" TextColor="White" Text="Take Photo" Command="{Binding TakePhotoCommand}"  />
+    </StackLayout>-->
+</ContentPage>
