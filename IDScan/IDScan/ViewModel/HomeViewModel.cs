@@ -10,6 +10,7 @@ using Acr.UserDialogs;
 using IDScanApp.ApiService;
 using IDScanApp.ApiService.Interfaces;
 using IDScanApp.Models;
+using RestSharp;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -95,13 +96,13 @@ namespace IDScanApp.ViewModel
 
         public HomeViewModel()
         {
-            TakePhotoCommand = new Command(TakePhotoAsync);
+            TakePhotoCommand = new Command(async () => await TakePhotoAsync());
             ScanAndUploadCommand = new Command(ScanAndUploadAsync);
             UploadIdCommand = new Command(UploadDocumentAsync);
             _uploadService = new UploadService();
         }
 
-        private async void TakePhotoAsync()
+        private async Task TakePhotoAsync()
         {
             try
             {
@@ -139,16 +140,17 @@ namespace IDScanApp.ViewModel
                 // save the file into local storage
                 var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
 
-
                 using (var stream = await photo.OpenReadAsync())
-                using (var newStream = File.OpenWrite(newFile))
                 {
-                    await stream.CopyToAsync(newStream);
-
-                    using (var memory = new MemoryStream())
+                    using (var newStream = File.OpenWrite(newFile))
                     {
-                        await stream.CopyToAsync(memory);
-                        //_byteImage = memory.ToArray();
+                        await stream.CopyToAsync(newStream);
+
+                        using (var memory = new MemoryStream())
+                        {
+                            await stream.CopyToAsync(memory);
+                            //_byteImage = memory.ToArray();
+                        }
                     }
                 }
 
@@ -196,12 +198,10 @@ namespace IDScanApp.ViewModel
             });
 
             UserDialogs.Instance.HideLoading();
-            if (response)
-            {
+            if (!response)
                 UserDialogs.Instance.Alert("Error to upload image, please try again");
-            }
             else
-                UserDialogs.Instance.Alert("Data sent successfully");
+                UserDialogs.Instance.Alert("Image uploaded successfully");
         }
     }
 }
