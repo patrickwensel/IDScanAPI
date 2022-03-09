@@ -6,7 +6,6 @@ using Android.Runtime;
 namespace IDScan.Droid
 {
     [Application]
-
     public class MyApp : Application, Application.IActivityLifecycleCallbacks
     {
         public MyApp(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer)
@@ -17,10 +16,6 @@ namespace IDScan.Droid
         public override void OnCreate()
         {
             base.OnCreate();
-
-            ZXing.Mobile.MobileBarcodeScanner.Initialize(this);
-
-
         }
 
 

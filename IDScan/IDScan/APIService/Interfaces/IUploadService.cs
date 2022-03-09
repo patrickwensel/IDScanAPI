@@ -6,9 +6,8 @@ using IDScanApp.Models;
 
 namespace IDScanApp.ApiService.Interfaces
 {
-	public interface IUploadService 
-	{
-		Task<ResponseModel> UploadImage(string encrypted);
-        
-	}
+    public interface IUploadService
+    {
+        Task<bool> UploadImage(UploadRequestModel uploadRequestModel);
+    }
 }

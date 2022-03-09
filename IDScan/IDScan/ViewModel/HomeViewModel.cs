@@ -138,20 +138,20 @@ namespace IDScanApp.ViewModel
 
                 // save the file into local storage
                 var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
-                
+
 
                 using (var stream = await photo.OpenReadAsync())
                 using (var newStream = File.OpenWrite(newFile))
                 {
                     await stream.CopyToAsync(newStream);
-                    
+
                     using (var memory = new MemoryStream())
                     {
                         await stream.CopyToAsync(memory);
                         //_byteImage = memory.ToArray();
                     }
                 }
-                
+
                 IsDocumentPhotoTaken = true;
                 ImgDocument = newFile;
                 _byteImage = File.ReadAllBytes(newFile);
@@ -188,48 +188,15 @@ namespace IDScanApp.ViewModel
 
         public async Task SendDataToServer(string resultText)
         {
-
-            string message = "DmukXmAbz4GG40f6!KlYVXyFKplXbsVi";
-            string password = "3sc3RLrpd17";
-
-            // Create sha256 hash
-            SHA256 mySHA256 = SHA256Managed.Create();
-            byte[] key = mySHA256.ComputeHash(Encoding.ASCII.GetBytes(password));
-
-            // Create secret IV
-            byte[] iv = new byte[16] { 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0 };
-
-            string encrypted = IDScan.Utility.EncryptString($"{resultText}|{System.Convert.ToBase64String(_byteImage)}", key, iv);
-
-            UserDialogs.Instance.ShowLoading("Uploading...");
-
-
-            using (var client = new HttpClient())
+            UserDialogs.Instance.ShowLoading();
+            var response = await _uploadService.UploadImage(new UploadRequestModel()
             {
-                client.BaseAddress = new Uri(Config.BaseUrl);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                //GET Method
+                file = _byteImage,
+                id = resultText
+            });
 
-                var json = Newtonsoft.Json.JsonConvert.SerializeObject(new UploadRequestModel() { GenQRUIDenc = encrypted });
-                //System.Console.WriteLine(json);
-                var data = new System.Net.Http.StringContent(json, Encoding.UTF8, "application/json");
-
-
-                HttpResponseMessage responses = await client.PostAsync($"UploadIDbyQR", data);
-                if (responses.IsSuccessStatusCode)
-                {
-                    var department = await responses.Content.ReadAsStringAsync();
-                }
-                else
-                {
-                    Console.WriteLine("Internal server Error");
-                }
-            }
-
-            var response = await _uploadService.UploadImage(encrypted);
             UserDialogs.Instance.HideLoading();
-            if (response == null)
+            if (response)
             {
                 UserDialogs.Instance.Alert("Error to upload image, please try again");
             }
