@@ -190,7 +190,8 @@ namespace IDScanApp.ViewModel
 
         public async Task SendDataToServer(string resultText)
         {
-            UserDialogs.Instance.ShowLoading();
+            UserDialogs.Instance.ShowLoading("Uploading...");
+            await Task.Delay(300);
             var response = await _uploadService.UploadImage(new UploadRequestModel()
             {
                 file = _byteImage,

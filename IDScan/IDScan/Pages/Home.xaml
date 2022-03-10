@@ -46,11 +46,15 @@
                HorizontalOptions="FillAndExpand"
                VerticalOptions="FillAndExpand"
                IsVisible="{Binding IsPhotoAccepted}">
-            <zxing:ZXingScannerView x:Name="scanner"
+            <!--<zxing:ZXingScannerView x:Name="scanner"
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="FillAndExpand"
                                 OnScanResult="scanner_OnScanResult"
-                                IsScanning="False" />
+                                IsScanning="False" />-->
+            <Image HorizontalOptions="FillAndExpand"
+               VerticalOptions="FillAndExpand"
+               Source="{Binding ImgDocument}"
+               Aspect="AspectFit"/>
         </Frame>
 
         <!-- Left Section of the screen -->

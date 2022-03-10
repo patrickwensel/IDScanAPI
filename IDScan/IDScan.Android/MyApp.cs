@@ -2,6 +2,7 @@
 using Android.App;
 using Android.OS;
 using Android.Runtime;
+using ZXing.Mobile;
 
 namespace IDScan.Droid
 {
@@ -16,6 +17,8 @@ namespace IDScan.Droid
         public override void OnCreate()
         {
             base.OnCreate();
+            ZXing.Mobile.MobileBarcodeScanner.Initialize(this);
+
         }
 
 

@@ -15,13 +15,26 @@ namespace IDScanApp.Pages
             BindingContext = _homeViewModel;
         }
 
-        void BtnStartQRScaning_Clicked(System.Object sender, System.EventArgs e)
+        async void BtnStartQRScaning_Clicked(System.Object sender, System.EventArgs e)
         {
             PhotoTakenView.IsVisible = false;
             _homeViewModel.IsPhotoAccepted = true;
             PhotoTakenView.IsVisible = false;
-            scanner.IsScanning = true;
-           
+            try
+            {
+
+                var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+
+                var result = await scanner.Scan();
+
+                if (result != null)
+                    scanner_OnScanResult(result);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Exception while scannig : {ex.Message}");
+            }
+            //scanner.IsScanning = true;
         }
 
         void scanner_OnScanResult(ZXing.Result result)

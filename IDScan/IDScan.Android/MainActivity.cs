@@ -5,6 +5,7 @@ using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
 using Acr.UserDialogs;
+using Android.Content;
 
 namespace IDScan.Droid
 {
@@ -29,5 +30,6 @@ namespace IDScan.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+        
     }
 }

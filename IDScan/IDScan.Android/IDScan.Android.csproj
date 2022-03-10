@@ -65,10 +65,10 @@
     <PackageReference Include="Acr.UserDialogs">
       <Version>7.2.0.562</Version>
     </PackageReference>
-    <PackageReference Include="ZXing.Net.Mobile.Forms">
+    <PackageReference Include="ZXing.Net.Mobile">
       <Version>2.4.1</Version>
     </PackageReference>
-    <PackageReference Include="ZXing.Net.Mobile">
+    <PackageReference Include="ZXing.Net.Mobile.Forms">
       <Version>2.4.1</Version>
     </PackageReference>
   </ItemGroup>
@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
+    <Folder Include="Services\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IDScan\IDScan.csproj">

@@ -152,4 +152,7 @@
     <BundleResource Include="Resources\IdScanLogo.png" />
     <BundleResource Include="Resources\ImgPlaceholder.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
 </Project>
