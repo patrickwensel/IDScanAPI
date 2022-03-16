@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Acr.UserDialogs;
+using IDScan.Interfaces;
 using IDScanApp.ApiService;
 using IDScanApp.ApiService.Interfaces;
 using IDScanApp.Models;
@@ -25,6 +26,7 @@ namespace IDScanApp.ViewModel
         private bool _isDocumentPhotoTaken;
         private bool _isQRCodeScanned;
         private bool _isPhotoAccepted;
+        private int _imageRotation;
         private string _qrCode;
 
         public string ImgDocument
@@ -66,6 +68,16 @@ namespace IDScanApp.ViewModel
             {
                 _isQRCodeScanned = value;
                 OnPropertyChanged("IsQRCodeScanned");
+            }
+        }
+
+        public int ImageRotation
+        {
+            get { return _imageRotation; }
+            set
+            {
+                _imageRotation = value;
+                OnPropertyChanged("ImageRotation");
             }
         }
 
@@ -136,7 +148,7 @@ namespace IDScanApp.ViewModel
                     ImgDocument = null;
                     return;
                 }
-
+                var rotation = 0;
                 // save the file into local storage
                 var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
 
@@ -149,12 +161,24 @@ namespace IDScanApp.ViewModel
                         using (var memory = new MemoryStream())
                         {
                             await stream.CopyToAsync(memory);
-                            //_byteImage = memory.ToArray();
+                            
                         }
+
+                        //item.GetStream().CopyTo(memoryStream);
+                        
+                        
                     }
                 }
 
                 IsDocumentPhotoTaken = true;
+
+                var imageInfo = DependencyService.Get<IImageInfo>();
+                var imageSize = imageInfo?.GetFileWidthAndHeight(newFile);
+
+                if (imageSize.Item1 > imageSize.Item2)
+                {
+                    //ImageRotation = Device.iOS == Device.RuntimePlatform ? 180 : 90;
+                }
                 ImgDocument = newFile;
                 _byteImage = File.ReadAllBytes(newFile);
                 ShowScanButton = true;
@@ -164,6 +188,8 @@ namespace IDScanApp.ViewModel
                 System.Diagnostics.Debug.WriteLine($"Exception : {ex.Message}");
             }
         }
+
+       
 
         private async void ScanAndUploadAsync()
         {
@@ -202,7 +228,11 @@ namespace IDScanApp.ViewModel
             if (!response)
                 UserDialogs.Instance.Alert("Error to upload image, please try again");
             else
-                UserDialogs.Instance.Alert("Image uploaded successfully");
+            {
+                await UserDialogs.Instance.AlertAsync("Image uploaded successfully");
+                var closer = DependencyService.Get<IKillApp>();
+                closer?.closeApplication();
+            }
         }
     }
 }

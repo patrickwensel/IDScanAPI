@@ -25,8 +25,11 @@
     <None Remove="Acr.UserDialogs" />
     <None Remove="ZXing.Net.Mobile" />
     <None Remove="Converters\" />
+    <None Remove="Interfaces\" />
+    <None Remove="ExifLibNet" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 </Project>

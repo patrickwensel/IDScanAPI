@@ -54,6 +54,7 @@
             <Image HorizontalOptions="FillAndExpand"
                VerticalOptions="FillAndExpand"
                Source="{Binding ImgDocument}"
+                   Rotation="{Binding ImageRotation}"
                Aspect="AspectFit"/>
         </Frame>
 
