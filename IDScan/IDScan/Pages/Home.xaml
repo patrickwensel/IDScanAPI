@@ -32,7 +32,7 @@
             <Image HorizontalOptions="FillAndExpand"
                VerticalOptions="FillAndExpand"
                Source="{Binding ImgDocument}"
-               Aspect="AspectFit"/>
+               Aspect="Fill"/>
         </Frame>
 
         <!-- Scanner View -->

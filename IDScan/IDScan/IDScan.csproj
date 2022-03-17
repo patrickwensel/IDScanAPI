@@ -17,6 +17,7 @@
     <PackageReference Include="RestSharp" Version="107.3.0" />
     <PackageReference Include="Acr.UserDialogs" Version="7.2.0.562" />
     <PackageReference Include="ZXing.Net.Mobile.Forms" Version="2.4.1" />
+    <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Newtonsoft.Json" />
@@ -27,6 +28,7 @@
     <None Remove="Converters\" />
     <None Remove="Interfaces\" />
     <None Remove="ExifLibNet" />
+    <None Remove="Xam.Plugin.Media" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Converters\" />

@@ -11,6 +11,8 @@ using IDScan.Interfaces;
 using IDScanApp.ApiService;
 using IDScanApp.ApiService.Interfaces;
 using IDScanApp.Models;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
 using RestSharp;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -118,7 +120,14 @@ namespace IDScanApp.ViewModel
         {
             try
             {
-                var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions() { Title = "Take Photo" });
+
+                var photo = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions()
+                {
+                    RotateImage = true,
+                    AllowCropping = true,
+                    ModalPresentationStyle = MediaPickerModalPresentationStyle.FullScreen,
+                });
+                //var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions() { Title = "Take Photo" });
                 await LoadPhotoAsync(photo);
                 Console.WriteLine($"CapturePhotoAsync COMPLETED: {ImgDocument}");
             }
@@ -138,7 +147,7 @@ namespace IDScanApp.ViewModel
             }
         }
 
-        async Task LoadPhotoAsync(FileResult photo)
+        async Task LoadPhotoAsync(MediaFile photo)
         {
             try
             {
@@ -150,9 +159,10 @@ namespace IDScanApp.ViewModel
                 }
                 var rotation = 0;
                 // save the file into local storage
-                var newFile = Path.Combine(FileSystem.CacheDirectory, photo.FileName);
+                System.Diagnostics.Debug.WriteLine($"Path : {photo.Path}");
+                var newFile = Path.Combine(FileSystem.CacheDirectory, DateTime.Now.ToString("dd-mm-yyyy-hh-mm-ss") + ".jpeg");
 
-                using (var stream = await photo.OpenReadAsync())
+                using (var stream = photo.GetStream())
                 {
                     using (var newStream = File.OpenWrite(newFile))
                     {
@@ -161,24 +171,12 @@ namespace IDScanApp.ViewModel
                         using (var memory = new MemoryStream())
                         {
                             await stream.CopyToAsync(memory);
-                            
-                        }
 
-                        //item.GetStream().CopyTo(memoryStream);
-                        
-                        
+                        }
                     }
                 }
 
                 IsDocumentPhotoTaken = true;
-
-                var imageInfo = DependencyService.Get<IImageInfo>();
-                var imageSize = imageInfo?.GetFileWidthAndHeight(newFile);
-
-                if (imageSize.Item1 > imageSize.Item2)
-                {
-                    //ImageRotation = Device.iOS == Device.RuntimePlatform ? 180 : 90;
-                }
                 ImgDocument = newFile;
                 _byteImage = File.ReadAllBytes(newFile);
                 ShowScanButton = true;
@@ -189,19 +187,23 @@ namespace IDScanApp.ViewModel
             }
         }
 
-       
+
 
         private async void ScanAndUploadAsync()
         {
             try
             {
-
                 var scanner = new ZXing.Mobile.MobileBarcodeScanner();
+                var scanOption = new ZXing.Mobile.MobileBarcodeScanningOptions()
+                {
+                    AutoRotate = false,
+                    TryHarder = true,
+                };
 
-                var result = await scanner.Scan();
+                var result = await scanner.Scan(scanOption);
 
                 if (result != null)
-                    SendDataToServer(result.Text);
+                    await SendDataToServer(result.Text);
             }
             catch (Exception ex)
             {
