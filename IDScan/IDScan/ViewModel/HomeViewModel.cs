@@ -124,10 +124,13 @@ namespace IDScanApp.ViewModel
                 var photo = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions()
                 {
                     RotateImage = true,
-                    AllowCropping = true,
+                    AllowCropping = false,
                     ModalPresentationStyle = MediaPickerModalPresentationStyle.FullScreen,
+                    PhotoSize = PhotoSize.MaxWidthHeight,
+                    MaxWidthHeight = 1600
                 });
-                //var photo = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions() { Title = "Take Photo" });
+
+                //var photo1 = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions() { Title = "Take Photo" });
                 await LoadPhotoAsync(photo);
                 Console.WriteLine($"CapturePhotoAsync COMPLETED: {ImgDocument}");
             }
