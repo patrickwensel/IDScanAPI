@@ -23,7 +23,7 @@ namespace IDScanApp.ViewModel
     {
         IUploadService _uploadService;
 
-        private string _imgDocument = "ImgPlaceholder.png";
+        private ImageSource _imgDocument = "ImgPlaceholder.png";
         private byte[] _byteImage;
         private bool _isDocumentPhotoTaken;
         private bool _isQRCodeScanned;
@@ -31,7 +31,7 @@ namespace IDScanApp.ViewModel
         private int _imageRotation;
         private string _qrCode;
 
-        public string ImgDocument
+        public ImageSource ImgDocument
         {
             get { return _imgDocument; }
             set
@@ -182,6 +182,15 @@ namespace IDScanApp.ViewModel
                 IsDocumentPhotoTaken = true;
                 ImgDocument = newFile;
                 _byteImage = File.ReadAllBytes(newFile);
+                if (Device.RuntimePlatform == Device.Android)
+                {
+                    var bytes = DependencyService.Get<IRotateImage>().Rotate(photo.GetStream(), newFile);
+
+                    ImgDocument = ImageSource.FromStream(() =>
+                    {
+                        return new MemoryStream(bytes);
+                    });
+                }
                 ShowScanButton = true;
             }
             catch (Exception ex)

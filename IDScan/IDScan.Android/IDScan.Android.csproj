@@ -83,6 +83,7 @@
     <Compile Include="SplashActivity.cs" />
     <Compile Include="Services\KillApp.cs" />
     <Compile Include="Services\ImageInfo.cs" />
+    <Compile Include="Services\RotateImage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
