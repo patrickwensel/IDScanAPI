@@ -126,8 +126,8 @@ namespace IDScanApp.ViewModel
                     RotateImage = true,
                     AllowCropping = false,
                     ModalPresentationStyle = MediaPickerModalPresentationStyle.FullScreen,
-                    PhotoSize = PhotoSize.MaxWidthHeight,
-                    MaxWidthHeight = 1600
+                    //PhotoSize = PhotoSize.MaxWidthHeight,
+                    //MaxWidthHeight = 1600
                 });
 
                 //var photo1 = await MediaPicker.CapturePhotoAsync(new MediaPickerOptions() { Title = "Take Photo" });
